@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="Выгрузка">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Подразделения" minOccurs="1" maxOccurs="1">
+                    <xs:complexType >
+                        <xs:sequence>
+                            <xs:element name="Подразделение" minOccurs="1" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:attribute name="Идентификатор" type="xs:string" use="required">
+                                        <xs:annotation>
+                                            <xs:documentation>Должен быть уникален для всех объектов.</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Событие" type="ТипСобытия" use="required"/>
+                                    <xs:attribute name="МоментСобытия" type="xs:dateTime" use="required">
+                                        <xs:annotation>
+                                            <xs:documentation>Дата-время наступления события. Указывается с часовым поясом в UTC, например 2002-05-30T09:30:10+06:00</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Наименование" type="xs:string" use="required">
+                                        <xs:annotation>
+                                            <xs:documentation>Наименование Подразделения. Состоит из названия кафедры и названия института. Например "Экономика ШПИ"</xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="ДатаФормирования" type="xs:date" use="required"/>
+                                    <xs:attribute name="ДатаРасформирования" type="xs:date"/>
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+
+            <xs:attribute name="Идентификатор" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>GUID сформированной выгрузки</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="МоментВыгрузки" type="xs:dateTime" use="required">
+                <xs:annotation>
+                    <xs:documentation>Дата-время выгрузки данных. Указывается с часовым поясом в UTC, например 2002-05-30T09:30:10+06:00</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="ТипВыгрузки" type="ТипВыгрузки" use="required"/>
+
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:simpleType name="ТипВыгрузки" >
+        <xs:annotation>
+            <xs:documentation>Тип выгрузки:
+                - Инкрементальная - выгрузка только тех позиций, которые были изменены со времени последней выгрузки
+                - Полная - выгрузка всех значений
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Инкрементальная"/>
+            <xs:enumeration value="Полная"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ТипСобытия">
+        <xs:annotation>
+            <xs:documentation>Событие, которое произошло с объектом: создание, обновление, удаление</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Создание"/>
+            <xs:enumeration value="Обновление"/>
+            <xs:enumeration value="Удаление"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+</xs:schema>
